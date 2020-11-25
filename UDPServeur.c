@@ -336,6 +336,7 @@ void commu(int sockfd)
 		sendto(sockfd, reponse, sizeof(reponse), 
 				MSG_CONFIRM, (const struct sockaddr *) &cliaddr, 
 				sizeof(servaddr));
+		}
 	}
 	//printf("\n\t*****TEST*****Derniere etape de BOUCLE FOR.\n"); 
     }
