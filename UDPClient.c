@@ -31,7 +31,7 @@ struct sockaddr_in	 servaddr;
 	demande_client[n]='\0';
 	sendto(sockfd, demande_client, sizeof(demande_client), MSG_CONFIRM, 
 		(const struct sockaddr *) &servaddr, sizeof(servaddr));
-	printf("\n*****TEST*****Message sent from Client : %s\n", demande_client); 
+	//printf("\n*****TEST*****Message sent from Client : %s\n", demande_client); 
 	//printf("****Test*********");
 	recvfrom(sockfd, buffer, MAXLINE, MSG_WAITALL, 
 			(struct sockaddr *) &servaddr, NULL);

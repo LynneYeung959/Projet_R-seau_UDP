@@ -193,11 +193,10 @@ void operations(int client, int compte, char *password,int sockfd)
 		                char str2[256];
 		                sprintf(str2,"%s - date: %s - montant:%d\n",c[k].compte[i].operation[j].type,
 		                                                            c[k].compte[i].operation[j].date,
-		                                                            				c[k].compte[i].operation[j].montant);
+		                                                            c[k].compte[i].operation[j].montant);
 		                strcat(str, str2);                                     
 		            }
 		        }
-			
 		        sendto(sockfd, str, sizeof(str), 
 				MSG_CONFIRM, (const struct sockaddr *) &cliaddr, 
 				sizeof(servaddr));
@@ -240,22 +239,21 @@ void commu(int sockfd)
 	printf("\nClient : %s\n", buffer);
 	
 	/*
-	
-	Examiner la demande de client (datagramme de client)
-	    4 types de DEMANDE: AJOUT RETRAIT SOLDE et OPERATION
-	    
+	Traiter la demande de client (datagramme de client)
+	    5 types de DEMANDE: AJOUT RETRAIT SOLDE OPERATION et EXIT
 	    - si la DEMANDE est AJOUT ou RETRAIT
 	    	la forme de demande doit être : 
-	        DEMANDE <id_client id_compte password somme>
-	        
+	        DEMANDE <id_client id_compte password somme> 
 	    - si la DEMANDE est SOLDE ou OPRATION
 	    	la forme de demande doit être : 
 	    	DEMANDE <id_client id_compte password >
+	    - si la DEMANDE est EXIT
+	    	la forme de demande doit être :
+	    	EXIT
 	*/
 	//on récupérer les infos de la demande
 	int total_demande;
  	total_demande = sscanf(buffer,"%s%d%d%s%d",oper,&id_client,&id_compte,password,&somme);
- 	
  	printf("\nTotal Info: %d ",total_demande);
  	printf("\nOpération demandée de client: %s ",oper);
 	printf("\nID_client: %d ",id_client);
@@ -295,7 +293,6 @@ void commu(int sockfd)
 				MSG_CONFIRM, (const struct sockaddr *) &cliaddr, 
 				sizeof(servaddr));
 		}
-	
 	}else if (total_demande == 4){
 		if(strncmp("Solde",oper,5) == 0){
 			solde(id_client,id_compte,password,sockfd);
@@ -310,8 +307,7 @@ void commu(int sockfd)
 			sendto(sockfd, reponse, sizeof(reponse), 
 				MSG_CONFIRM, (const struct sockaddr *) &cliaddr, 
 				sizeof(servaddr));
-		}
-		n = 1;	
+		}	
 	}else if(total_demande == 1){
 		if(strncmp("Yes",oper,3) == 0){
 			printf("Client Exit...\n");
@@ -325,14 +321,18 @@ void commu(int sockfd)
 			sendto(sockfd, reponse, sizeof(reponse), 
 				MSG_CONFIRM, (const struct sockaddr *) &cliaddr, 
 				sizeof(servaddr));
-		}else{
-			strcpy(reponse, "KO Saisir [Yes / No]");
+		}else if(strncmp("Exit",oper,4)==0){
+			strcpy(reponse, "Vous voulez quitter la session? [Yes / No]");
 			sendto(sockfd, reponse, sizeof(reponse), 
 				MSG_CONFIRM, (const struct sockaddr *) &cliaddr, 
 				sizeof(servaddr));
-		}	
+		}else{
+			strcpy(reponse, "KO Votre demande n'est pas correcte");
+			sendto(sockfd, reponse, sizeof(reponse), 
+				MSG_CONFIRM, (const struct sockaddr *) &cliaddr, 
+				sizeof(servaddr));
 	}else{
-		strcpy(reponse, "KO IL MANQUE/IL Y A TROPE DES INFOMATIONS");
+		strcpy(reponse, "KO IL MANQUE/IL Y A TROPE DES INFORMATIONS");
 		sendto(sockfd, reponse, sizeof(reponse), 
 				MSG_CONFIRM, (const struct sockaddr *) &cliaddr, 
 				sizeof(servaddr));
