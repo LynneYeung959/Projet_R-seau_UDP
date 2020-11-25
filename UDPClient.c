@@ -36,11 +36,6 @@ struct sockaddr_in	 servaddr;
 	recvfrom(sockfd, buffer, MAXLINE, MSG_WAITALL, 
 			(struct sockaddr *) &servaddr, NULL);
 	printf("\nServer : %s\n", buffer);		
-	/*		
-	sendto(sockfd, demande_client, sizeof(demande_client), MSG_CONFIRM, 
-		(const struct sockaddr *) &servaddr, sizeof(servaddr)); 
-	bzero(demande_client,MAXLINE);
-	*/
 	if(strncmp("EXIT",buffer,4) == 0){
 		printf("___AU REVOIR___");
 		break;
