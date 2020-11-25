@@ -52,10 +52,6 @@ struct sockaddr_in	 servaddr;
 // Driver code 
 int main() { 
 	int sockfd; 
-	//char buffer[MAXLINE]; 
-	//char demande_client[MAXLINE];
-	 
-
 	// Creating socket file descriptor 
 	if ( (sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) { 
 		perror("socket creation failed"); 
