@@ -14,23 +14,6 @@
 #define PORT	 8080 
 #define MAXLINE 1024 
 struct sockaddr_in	 servaddr;
-/*
-typedef struct 
-{
-    char *type;
-    float montant;
-    char *date;
-}OPERATION;
-
-typedef struct
-{
-    int id_client;
-    int id_compte;
-    char *password;
-    float solde;
-    OPERATION operation[10];
-}CLIENT;
-*/
 
  void commu(int sockfd) 
 { 

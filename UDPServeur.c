@@ -353,8 +353,6 @@ int main() {
         p[i].password="eise";	// password par defaut : "eise"
         p[i].solde=i*10;	// solde par defaut : 10,20,30...
     }
-    // un seul client avec ID de client "1" 
-    
     for (int j=0; j<nbCli; j++)
     {
     	c[j].id_client = j;
